@@ -14,10 +14,6 @@ pipeline{
         DOCKER_PASS = credentials('dockerhub-password')
     }
 
-    // parameters {
-    //     string defaultValue: '${BUILD_NUMBER}', description: 'Enter the version of the docker image', name: 'VERSION'
-    // }
-
     stages{
         stage("build java app image"){
             steps{
