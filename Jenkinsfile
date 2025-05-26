@@ -9,9 +9,8 @@ pipeline{
         jdk "java-8"
     }
 
-    environment{
-        DOCKER_USER = credentials('dockerhub-user')
-        DOCKER_PASS = credentials('dockerhub-password')
+    environment {
+        DOCKER_CREDS = credentials('dockerhub-user')
     }
 
     stages{
@@ -19,17 +18,16 @@ pipeline{
             steps{
                 script{
                     def dockerx = new org.iti.docker()
-                    dockerx.build("java", "${BUILD_NUMBER}")
+                    dockerx.build("meldeeeb/java-app", "${BUILD_NUMBER}")
                 }
-                sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASS} "
             }
         }
         stage("push java app image"){
             steps{
                 script{
                     def dockerx = new org.iti.docker()
-                    dockerx.login("${DOCKER_USER}", "${DOCKER_PASS}")
-                    dockerx.push("${DOCKER_USER}", "${DOCKER_PASS}")
+                    dockerx.login(env.DOCKER_CREDS_USR, env.DOCKER_CREDS_PSW)
+                    dockerx.push("meldeeeb/java-app", "${BUILD_NUMBER}")
                 }
             }
         }
