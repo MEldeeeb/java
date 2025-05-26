@@ -5,10 +5,6 @@ pipeline{
         label 'bash'
     }
 
-    tools{
-        jdk "java-8"
-    }
-
     environment {
         DOCKER_CREDS = credentials('dockerhub-user')
     }
